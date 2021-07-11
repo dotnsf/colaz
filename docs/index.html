@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3c.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<meta charset="utf8"/>
+<meta http-equiv="pragma" content="no-cache"/>
+<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="./big.min.js"></script>
+
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta name="apple-mobile-web-app-title" content="Colaz"/>
+
+<title>Colaz</title>
+<script>
+//. どの数からどの数までを計算するか
+var calc_start = Big( "1" );
+var calc_end = Big( "10000" );
+
+function colaz_function( str ){
+  var x = Big( str );
+  if( x.mod( 2 ).eq( 0 ) ){
+    x = x.div( 2 );  
+  }else{
+    x = x.mul( 3 ).add( 1 );
+  }
+
+  return x.toString();
+}
+
+function colaz_loop( s ){
+  var count = Big( "0" );
+  while( !Big( s ).eq( "1" ) ){
+    count = count.add( 1 );
+    s = colaz_function( s );
+  }
+  
+  //. 何回の計算で 1 になったか、を返す
+  return count.toString();
+}
+
+$(function(){
+  var ts = ( new Date() ).getTime();
+  while( calc_start.lte( calc_end ) ){
+    var c = colaz_loop( calc_start.toString() );
+    var tsn = ( new Date() ).getTime();
+
+    $('#result').append( "[" + calc_start.toString() + "]: " + c.toString() + " (" + ( tsn - ts ) + ")<br/>" ); 
+    calc_start = calc_start.add( 1 );
+  }
+});
+</script>
+</head>
+<body>
+
+<div class="container" id="result">
+</div>
+
+</body>
+</html>
