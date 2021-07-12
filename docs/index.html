@@ -15,10 +15,6 @@
 
 <title>Colaz</title>
 <script>
-//. どの数からどの数までを計算するか
-var calc_start = Big( "1" );
-var calc_end = Big( "10000" );
-
 function colaz_function( str ){
   var x = Big( str );
   if( x.mod( 2 ).eq( 0 ) ){
@@ -41,7 +37,11 @@ function colaz_loop( s ){
   return count.toString();
 }
 
-$(function(){
+function calc_colaz(){
+  //. どの数からどの数までを計算するか
+  var calc_start = Big( $('#colaz_start').val() );
+  var calc_end = Big( $('#colaz_end').val() );
+
   var ts = ( new Date() ).getTime();
   while( calc_start.lte( calc_end ) ){
     var c = colaz_loop( calc_start.toString() );
@@ -50,10 +50,18 @@ $(function(){
     $('#result').append( "[" + calc_start.toString() + "]: " + c.toString() + " (" + ( tsn - ts ) + ")<br/>" ); 
     calc_start = calc_start.add( 1 );
   }
-});
+}
 </script>
 </head>
 <body>
+
+<div class="container">
+  <table class="table">
+    <tr><td>Start: </td><td><input type="text" class="form-control" id="colaz_start" value="1"/></td></tr>
+    <tr><td>End: </td><td><input type="text" class="form-control" id="colaz_end" value="10000"/></td></tr>
+    <tr><td colspan="2"><button class="btn btn-primary" onClick="calc_colaz();">Colaz</button></td></tr>
+  </table>
+</div>
 
 <div class="container" id="result">
 </div>
